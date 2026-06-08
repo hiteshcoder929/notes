@@ -1,480 +1,705 @@
-/* Global reset */
+/* ==========================================================================
+   Modern Notes App Stylesheet - DARK THEME
+   Strict Constraint: ONLY colors from script.js colorsArray are used.
+   Paradigm: Modern Dark Glassmorphism & Soft Depth
+   ========================================================================== */
+
+:root {
+  /* Hex colors mapped directly from colorsArray */
+  --c-dark-bg: #141025;
+  /* Base Dark Purple/Black */
+  --c-txt-primary: #bfdbfe;
+  /* Very Light Blue (Text Main) */
+  --c-txt-sec: #bbf7d0;
+  /* Soft Light Green (Text Accent) */
+  --c-purple: #9a86f1;
+  /* Purple (Medium Accent / Focus Outlines) */
+  --c-blue: #498be0;
+  /* Blue (Medium Accent / Search button) */
+  --c-green: #8ce2aa;
+  /* Light Green (Medium Accent / Add note) */
+  --c-pink: #ec78ba;
+  /* Pink (Medium Accent / Delete / Trash) */
+  --c-yellow: #f3d24c;
+  /* Yellow (Medium Accent / Pin alert) */
+  --c-red: #eb6856;
+  /* Red/Orange (Medium Accent) */
+  --c-pink-soft: #e794c3;
+  /* Soft Pink (Muted Secondary Text) */
+
+  /* Spacing System */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+
+  /* Global Transition Curve */
+  --transition-normal: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Reset & Base Setup */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Full-height base */
-html, body {
+html,
+body {
   height: 100%;
 }
 
-/* Page background and typography */
 body {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top left, #eef2ff 0%, #fdf2f8 40%, #ffffff 100%);
-  color: #1f2937;
-  line-height: 1.5;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Soft dark gradient using base and soft translucent purple accents */
+  background: linear-gradient(135deg,
+      var(--c-dark-bg) 0%,
+      rgba(20, 16, 37, 0.96) 60%,
+      rgba(154, 134, 241, 0.08) 100%);
+  background-attachment: fixed;
+  color: var(--c-txt-primary);
+  line-height: 1.6;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body > .home {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 32px 20px 60px;
-}
-
-button{
+button {
   border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+  outline: none;
 }
 
-/* hidden */
+/* Safe Hidden Override */
 .hidden {
-  display: none;
-  visibility: hidden;
-  height: 0;
-  width: 0;
-  overflow: hidden;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
 }
 
-/* Top navigation bar */
+/* Container for Home view */
+body>.home {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md) 80px;
+}
+
+/* On medium+ screens increase padding */
+@media (min-width: 769px) {
+  body>.home {
+    padding: 40px var(--space-lg) 80px;
+  }
+}
+
+/* ==========================================================================
+   Navigation Bar Section
+   ========================================================================== */
 nav {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-  padding: 20px 24px;
-  background: rgba(255,255,255,0.88);
-  border: 1px solid rgba(167,139,250,0.24);
-  border-radius: 24px;
-  box-shadow: 0 24px 60px rgba(109, 40, 217, 0.08);
-  backdrop-filter: blur(14px);
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: rgba(20, 16, 37, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(154, 134, 241, 0.16);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  margin-bottom: var(--space-lg);
 }
 
 nav h1 {
-  font-size: clamp(1.4rem, 2vw, 2rem);
-  letter-spacing: 0.08em;
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--c-txt-primary);
   text-transform: uppercase;
-  color: #5b21b6;
-}
-
-search {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1 1 320px;
-  max-width: 420px;
-}
-
-/* Search input styles */
-.search-box {
-  width: 100%;
-  min-height: 48px;
-  padding: 0 16px;
-  border-radius: 100px;
-  border: 1px solid #d8b4fe;
-  background: #ffffff;
-  outline: none;
-  font-size: 0.95rem;
-  color: #0f172a;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.search-box:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 4px rgba(124,58,237,0.16);
-}
-
-.search-btn {
-  border: none;
-  padding: 4px;
-  display: grid;
-  place-items: center;
-  width: auto;
-  height: auto;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #7c3aed, #4338ca);
-  color: #fff;
+  text-align: center;
+  user-select: none;
   cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-.search-btn svg {
-  width: 20px;
-  height: 20px;
-  margin: 6px;
+nav form {
+  width: 100%;
+  display: flex;
 }
 
-.search-btn:hover {
-  transform: scale(1.05);
-  filter: brightness(1.05);
-}
-
+search,
 .notes-add {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  min-width: 280px;
-}
-
-.title-box {
-  flex: 1 1 220px;
-  min-height: 48px;
-  padding: 0 16px;
-  border-radius: 100px;
-  border: 1px solid #cbd5e1;
-  background: #fff;
-  font-size: 0.95rem;
-  color: #0f172a;
-}
-
-.title-box:focus {
-  border-color: #22c55e;
-  box-shadow: 0 0 0 4px rgba(34,197,94,0.14);
-}
-
-.add-btn {
-  border: none;
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #10b981, #047857);
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-.add-btn:hover {
-  transform: scale(1.05);
-  filter: brightness(1.08);
-}
-
-/* Notes list grid */
-main {
-  margin-top: 28px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-  padding:20px;
-}
-
-.notes-box {
-  position: relative;
-  z-index: 0;
-  display: grid;
-  gap: 18px;
-  padding: 24px;
-  margin: 30px;
-
-  border: 1px solid rgba(167,139,250,0.25);
-  border-radius: 26px;
-  box-shadow: 0 18px 40px rgba(99, 102, 241, 0.12);
-  border-left: 4px solid rgba(124, 58, 237, 0.7);
-}
-
-.box {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.date {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: #ede9fe;
-  color: #5b21b6;
-  font-size: 0.88rem;
-  font-weight: 700;
-}
-
-.notes-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-
-
-.title {
-  min-height: 26px;
+  gap: var(--space-xs);
   width: 100%;
-  background: linear-gradient(90deg, rgba(148,163,184,0.15), rgba(148,163,184,0.08));
-  border-radius: 14px;
-  padding: 6px 12px;
 }
 
-.new-input{
-  border: none;
-    min-height: 26px;
-  width: 100%;
-  background: linear-gradient(90deg, rgba(148,163,184,0.15), rgba(148,163,184,0.08));
-  border-radius: 14px;
-  padding: 6px 12px;
-}
-
-.option-icon {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #f8fafc;
-  color: #475569;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.option-icon:hover {
-  background: #e2e8f0;
-  transform: translateY(-1px);
-}
-
-svg {
-  display: block;
-}
-
-.menu{
-  position: absolute;
-  right:-30px;
-  top:-50px;
-  padding:5px;
-  margin-top: 8px;
-  width:58px;
-  background: #fff;
-  border: 1px solid rgba(148,163,184,0.18);
-  border-radius: 12px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-  z-index: 10;
-}
-
-.menu .trash,.pin,.color,.edit{
-  border-radius: 8px;
-  margin: 8px;
-  padding:3px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  background: #475569;
-}
-
-.menu .trash,.pin,.color,.edit, .svg{
-  color: #fff;
-}
-
-@media (max-width: 720px) {
+/* Desktop horizontal layouts for Navbar */
+@media (min-width: 769px) {
   nav {
-    padding: 18px 18px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px;
+    border-radius: 24px;
+    gap: var(--space-lg);
   }
 
-  .notes-add,
+  nav h1 {
+    text-align: left;
+    margin-right: auto;
+  }
+
+  nav form {
+    width: auto;
+  }
+
   search {
-    flex: 1 1 100%;
+    width: 280px;
   }
 
   .notes-add {
-    justify-content: stretch;
-  }
-
-  .add-btn,
-  .search-btn {
-    width: 48px;
-    height: 48px;
+    width: 280px;
   }
 }
 
-/* Responsive note page layout */
-@media (max-width: 720px) {
-  .notes-nav,
-  .note-page {
-    padding: 22px 18px 48px;
-  }
-
-  .notes-nav {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .notes-nav .right,
-  .nav-box {
-    justify-content: flex-start;
-    width: 100%;
-  }
-
-  .notes-nav .home,
-  .notes-nav .pin,
-  .notes-nav .color,
-  .notes-nav .del,
-  .option-icon {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-.note-page {
+/* ==========================================================================
+   Input Boxes (Search Box & Title Box)
+   ========================================================================== */
+.search-box,
+.title-box {
   width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  padding: 32px 20px 60px;
+  min-height: 44px;
+  padding: 0 var(--space-md);
+  border-radius: 12px;
+  border: 1px solid rgba(154, 134, 241, 0.25);
+  background: var(--c-dark-bg);
+  outline: none;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  color: var(--c-txt-primary);
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.notes-nav {
+.search-box::placeholder,
+.title-box::placeholder {
+  color: rgba(191, 219, 254, 0.45);
+}
+
+/* Focus Outlines - Styled cleanly using box-shadows (no layout shifts) */
+.search-box:focus {
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 3px rgba(73, 139, 224, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.title-box:focus {
+  border-color: var(--c-green);
+  box-shadow: 0 0 0 3px rgba(140, 226, 170, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   Advanced Button System
+   ========================================================================== */
+.search-btn,
+.add-btn,
+.option-icon,
+.menu .trash,
+.menu .pin,
+.menu .edit,
+.menu .color,
+.home-btn,
+.pin-notes,
+.notes-nav .color,
+.notes-nav .del {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Hover scales and slightly boosts brightness */
+.search-btn:hover,
+.add-btn:hover,
+.option-icon:hover,
+.menu .trash:hover,
+.menu .pin:hover,
+.menu .edit:hover,
+.menu .color:hover,
+.home-btn:hover,
+.pin-notes:hover,
+.notes-nav .color:hover,
+.notes-nav .del:hover {
+  transform: scale(1.03);
+  filter: brightness(1.15);
+}
+
+/* Active presses scale down and slightly dim */
+.search-btn:active,
+.add-btn:active,
+.option-icon:active,
+.menu .trash:active,
+.menu .pin:active,
+.menu .edit:active,
+.menu .color:active,
+.home-btn:active,
+.pin-notes:active,
+.notes-nav .color:active,
+.notes-nav .del:active {
+  transform: scale(0.97);
+  filter: brightness(0.9);
+}
+
+.search-btn svg,
+.add-btn svg,
+.option-icon svg,
+.menu svg,
+.home-btn svg,
+.pin-notes svg,
+.notes-nav .color svg,
+.notes-nav .del svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* Medium tone styles for buttons from colorsArray */
+.add-btn {
+  background: rgba(140, 226, 170, 0.12);
+  color: var(--c-green);
+  border-color: rgba(140, 226, 170, 0.25);
+}
+
+.add-btn:hover {
+  background: var(--c-green);
+  color: var(--c-dark-bg);
+  border-color: var(--c-green);
+}
+
+.search-btn {
+  background: rgba(73, 139, 224, 0.12);
+  color: var(--c-blue);
+  border-color: rgba(73, 139, 224, 0.25);
+}
+
+.search-btn:hover {
+  background: var(--c-blue);
+  color: var(--c-dark-bg);
+  border-color: var(--c-blue);
+}
+
+.home-btn {
+  background: rgba(154, 134, 241, 0.12);
+  color: var(--c-purple);
+  border-color: rgba(154, 134, 241, 0.25);
+}
+
+.home-btn:hover {
+  background: var(--c-purple);
+  color: var(--c-dark-bg);
+  border-color: var(--c-purple);
+}
+
+.pin-notes,
+.menu .pin {
+  background: rgba(243, 210, 76, 0.12);
+  color: var(--c-yellow);
+  border-color: rgba(243, 210, 76, 0.25);
+}
+
+.pin-notes:hover,
+.menu .pin:hover {
+  background: var(--c-yellow);
+  color: var(--c-dark-bg);
+  border-color: var(--c-yellow);
+}
+
+.menu .edit {
+  background: rgba(73, 139, 224, 0.12);
+  color: var(--c-blue);
+  border-color: rgba(73, 139, 224, 0.25);
+}
+
+.menu .edit:hover {
+  background: var(--c-blue);
+  color: var(--c-dark-bg);
+  border-color: var(--c-blue);
+}
+
+.menu .color,
+.notes-nav .color {
+  background: rgba(154, 134, 241, 0.12);
+  color: var(--c-purple);
+  border-color: rgba(154, 134, 241, 0.25);
+}
+
+.menu .color:hover,
+.notes-nav .color:hover {
+  background: var(--c-purple);
+  color: var(--c-dark-bg);
+  border-color: var(--c-purple);
+}
+
+.menu .trash,
+.notes-nav .del {
+  background: rgba(236, 120, 186, 0.12);
+  color: var(--c-pink);
+  border-color: rgba(236, 120, 186, 0.25);
+}
+
+.menu .trash:hover,
+.notes-nav .del:hover {
+  background: var(--c-pink);
+  color: var(--c-dark-bg);
+  border-color: var(--c-pink);
+}
+
+.option-icon {
+  background: rgba(154, 134, 241, 0.1);
+  color: var(--c-purple);
+  border-color: rgba(154, 134, 241, 0.18);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
+}
+
+.option-icon:hover {
+  background: var(--c-purple);
+  color: var(--c-dark-bg);
+  border-color: var(--c-purple);
+}
+
+/* ==========================================================================
+   Notes Grid Layout (Adaptive CSS Grid Breakpoints)
+   ========================================================================== */
+main {
+  display: grid;
+  gap: var(--space-lg);
+  padding: var(--space-xs) 0;
+  width: 100%;
+}
+
+/* Grid Breakpoint Ranges */
+@media (min-width: 320px) and (max-width: 480px) {
+  main {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  main {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  main {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ==========================================================================
+   Notes Card Layout (.notes-box)
+   ========================================================================== */
+.notes-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(154, 134, 241, 0.16);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: var(--transition-normal);
+  cursor: pointer;
+  overflow: visible;
+  /* option menus must float outside */
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+/* Blend the dynamic backgrounds with the dark theme using a dark overlay */
+.notes-box {
+  background-image: linear-gradient(135deg,
+      rgba(20, 16, 37, 0.88) 0%,
+      rgba(20, 16, 37, 0.82) 100%) !important;
+}
+
+/* Lift effect on hover (uses transform ONLY to prevent layout shifting) */
+.notes-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6);
+  border-color: rgba(154, 134, 241, 0.28);
+}
+
+.notes-box .box {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 22px 24px;
-  background: rgba(255,255,255,0.95);
-  border: 1px solid rgba(167,139,250,0.24);
-  border-radius: 24px;
-  box-shadow: 0 18px 40px rgba(99, 102, 241, 0.1);
+  width: 100%;
+}
+
+/* Card Date indicator */
+.notes-box .date {
+  font-size: clamp(0.75rem, 1.2vw, 0.85rem);
+  font-weight: 600;
+  color: var(--c-txt-sec);
+  background: rgba(154, 134, 241, 0.08);
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(154, 134, 241, 0.15);
+}
+
+/* Pin indicators */
+.notes-box .unpin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-yellow);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.notes-box .unpin:hover {
+  transform: scale(1.1);
+}
+
+.notes-box .unpin svg {
+  width: 16px;
+  height: 16px;
+}
+
+.notes-box .notes-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  width: 100%;
+}
+
+.notes-box .title {
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+  font-weight: 700;
+  color: var(--c-txt-primary);
+  line-height: 1.4;
+  word-break: break-word;
+  padding: 2px 0;
+  flex: 1;
+}
+
+/* Edit title field (card level) */
+.new-input {
+  width: 100%;
+  border: 1px solid var(--c-purple);
+  background: var(--c-dark-bg);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-weight: 600;
+  outline: none;
+  font-family: inherit;
+  color: var(--c-txt-primary);
+  box-shadow: 0 0 0 3px rgba(154, 134, 241, 0.2);
+}
+
+/* ==========================================================================
+   Floating Options Dropdown Menu
+   ========================================================================== */
+.menu {
+  position: absolute;
+  right: 20px;
+  top: 56px;
+  padding: 6px;
+  background: rgba(20, 16, 37, 0.92);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(154, 134, 241, 0.24);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  /* Fix z-index layering to float above all card contents */
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  animation: menuAppear 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: top right;
+}
+
+@keyframes menuAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.menu.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Page-2: Editor View Layout
+   ========================================================================== */
+.page-2 {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: var(--space-md) var(--space-md) 60px;
+}
+
+.note-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+}
+
+/* Navigation layout in note editor */
+.notes-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: rgba(20, 16, 37, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(154, 134, 241, 0.16);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
 .notes-nav .notes-title {
   flex: 1;
-  min-width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notes-nav .notes-title span {
+  display: block;
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-weight: 750;
+  color: var(--c-txt-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .notes-nav .right {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.notes-nav .date span {
+  font-size: clamp(0.8rem, 1.3vw, 0.90rem);
+  font-weight: 600;
+  color: var(--c-txt-sec);
+  background: rgba(154, 134, 241, 0.08);
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(154, 134, 241, 0.15);
 }
 
 .nav-box {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: var(--space-xs);
 }
 
-.notes-nav .home,
-.notes-nav .pin,
-.notes-nav .color,
-.notes-nav .del,
-.option-icon {
-  display: grid;
-  place-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 16px;
-  background: #f8fafc;
-  color: #475569;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+/* Large screen toolbar layouts for Page-2 editor */
+@media (min-width: 769px) {
+  .page-2 {
+    padding: 40px var(--space-lg) 80px;
+  }
+
+  .notes-nav {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px;
+    border-radius: 24px;
+    gap: var(--space-lg);
+  }
+
+  .notes-nav .notes-title {
+    justify-content: flex-start;
+  }
+
+  .notes-nav .right {
+    flex-direction: row;
+    gap: 20px;
+  }
 }
 
-.notes-nav .home:hover,
-.notes-nav .pin:hover,
-.notes-nav .color:hover,
-.notes-nav .del:hover,
-.option-icon:hover {
-  background: #e2e8f0;
-  transform: translateY(-1px);
-}
-
-.conotent,
-.content {
-  margin-top: 22px;
+/* Spacing and style of Editor text area */
+.conotent {
+  width: 100%;
 }
 
 #notes {
   width: 100%;
-  min-height: 340px;
-  border: 1px solid rgba(167,139,250,0.28);
-  border-radius: 28px;
-  padding: 24px;
-  font-size: 1rem;
-  line-height: 1.8;
-  color: #0f172a;
-  background: #fdf7ff;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.9), 0 16px 38px rgba(99, 102, 241, 0.06);
-  resize: vertical;
+  min-height: 400px;
+  padding: 20px;
+  font-family: inherit;
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  line-height: 1.75;
+  color: var(--c-txt-primary);
+  background: rgba(20, 16, 37, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(154, 134, 241, 0.2);
+  border-radius: 20px;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.note-page {
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  padding: 32px 20px 60px;
-  background: rgba(247, 245, 255, 0.65);
-  border-radius: 30px;
-}
-
-.page-2 {
-  background: linear-gradient(180deg, rgba(239, 232, 255, 0.35), rgba(255, 255, 255, 0.9));
-}
-
-.page-2 {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 24px 16px 40px;
-}
-
-.page-2 .note-page:not(:first-of-type) {
-  display: none;
-}
-
-.note-page {
-  margin-bottom: 18px;
-}
-
-.notes-nav .notes-title {
-  min-height: 28px;
-}
-
-.notes-nav .right {
-  gap: 14px;
-}
-
-.nav-box {
-  gap: 12px;
-}
-
-.notes-nav .home,
-.notes-nav .pin,
-.notes-nav .color,
-.notes-nav .del,
-.option-icon {
-  min-width: 48px;
-  min-height: 48px;
+  resize: vertical;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 #notes:focus {
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 4px rgba(96,165,250,0.12);
+  background: rgba(20, 16, 37, 0.94);
+  border-color: var(--c-purple);
+  box-shadow: 0 0 0 4px rgba(154, 134, 241, 0.18), inset 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* Notes card enhancements */
-.notes-box:nth-child(odd) {
-  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(244,247,255,0.95));
-}
-
-.notes-box:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.08);
-}
-
-.notes-box {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.page-2{
-  height:100vh;
-  width:100%;
-  display: flex;
-  gap: 20px;
+@media (min-width: 769px) {
+  #notes {
+    padding: 32px;
+    min-height: 480px;
+    border-radius: 24px;
+  }
 }

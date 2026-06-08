@@ -25,16 +25,26 @@ function localSave(sav) {
 }
 
 let colorsArray = [
-  "#eb6856", // soft yellow
-  "#f3d24c",
-  "#498be0", // soft blue
+  "#fef9c3", // soft yellow
+  "#fde68a",
+
+  "#dbeafe", // soft blue
   "#bfdbfe",
-  "#8ce2aa", // soft green
+
+  "#dcfce7", // soft green
   "#bbf7d0",
-  "#ec78ba", // soft pink
-  "#e794c3",
-  "#141025", // soft purple
-  "#9a86f1"
+
+  "#fce7f3", // soft pink
+  "#fbcfe8",
+
+  "#ede9fe", // soft purple
+  "#ddd6fe",
+
+  "#f1f5f9", // soft gray (clean)
+  "#e2e8f0",
+
+  "#fff7ed", // soft orange
+  "#fed7aa"
 ]
 
 addButton.addEventListener("click", (e) => {
