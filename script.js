@@ -6,6 +6,22 @@ let notePage = document.querySelector(".note-page");
 let search = document.querySelector(".search-box");
 let searchButton = document.querySelector(".search-btn");
 let home = document.querySelector(".home");
+let clearAll = document.querySelector(".clear-all")
+let restore = document.querySelector(".restore")
+
+restore.addEventListener('click', () => {
+  console.log(data)
+  data = backupData
+  localSave(data)
+  render(data)
+})
+
+clearAll.addEventListener('click', () => {
+  data = []
+  localStorage.removeItem('dataSave')
+  render(data)
+  localSave(data)
+})
 
 let currentId = null;
 
@@ -17,6 +33,7 @@ heading.addEventListener("click", () => {
 });
 
 // forming data sturcture
+let backupData = JSON.parse(localStorage.getItem("dataSave")) || [];
 let data = JSON.parse(localStorage.getItem("dataSave")) || [];
 
 // saving data in local storage
@@ -25,26 +42,26 @@ function localSave(sav) {
 }
 
 let colorsArray = [
-  "#fef9c3", // soft yellow
-  "#fde68a",
+  "#ffea0028", // soft yellow
+  "#f3c40641",
 
-  "#dbeafe", // soft blue
-  "#bfdbfe",
+  "#3d91ff2f", // soft blue
+  "#0071fc31",
 
-  "#dcfce7", // soft green
-  "#bbf7d0",
+  "#53ff8f2d", // soft green
+  "#00fc583b",
 
-  "#fce7f3", // soft pink
-  "#fbcfe8",
+  "#fd54b45b", // soft pink
+  "#ff00902c",
 
-  "#ede9fe", // soft purple
-  "#ddd6fe",
+  "#896eff3a", // soft purple
+  "#4117ff5e",
 
-  "#f1f5f9", // soft gray (clean)
-  "#e2e8f0",
+  "#83c1ff60", // soft gray (clean)
+  "#69aaff5d",
 
-  "#fff7ed", // soft orange
-  "#fed7aa"
+  "#dcff1959", // soft orange
+  "#ffa64063"
 ]
 
 addButton.addEventListener("click", (e) => {
@@ -56,10 +73,13 @@ addButton.addEventListener("click", (e) => {
       date: new Date().toLocaleDateString(),
       pinned: false,
       content: "",
-      color: "#ffffff"
+      color: "rgba(255, 255, 255, 0.08) "
     });
     render(data);
     localSave(data);
+    backupData = data
+    console.log(backupData)
+    localSave(backupData)
     title.value = "";
   }
 });
@@ -131,9 +151,10 @@ function render(str) {
           </div>
         </div>
       </div>
-  </div>`,
+  </div>`,   
     )
     .join("");
+
 }
 
 main.addEventListener("click", (e) => {
@@ -165,6 +186,7 @@ main.addEventListener("click", (e) => {
 
     render(data);
     localSave(data);
+    localSave(backupData)
   } else if (unpin) {
     let index = unpin.dataset.id;
 
@@ -186,6 +208,7 @@ main.addEventListener("click", (e) => {
         data[index].title = newInput.value;
         render(data);
         localSave(data);
+        localSave(backupData)
       }
     });
   } else if (paint) {
@@ -213,9 +236,12 @@ function colorFunction(paint) {
   col.color = colorsArray[num]
   render(data)
   localSave(data)
+  localSave(backupData)
 }
 
 function deleteFuntion(mainBox) {
+  localSave(backupData)
+  console.log(backupData)
   let id = mainBox.dataset.id;
   let index = data.findIndex((t) => t.id == id);
   data.splice(index, 1)
@@ -292,6 +318,7 @@ function saveContent(note) {
       note.content = noteContent.value;
       render(data);
       localSave(data);
+      localSave(backupData)
     }
   });
 }
@@ -304,6 +331,7 @@ pinNotes.addEventListener('click', () => {
 
   render(data)
   localSave(data)
+  localSave(backupData)
 })
 
 delButton.addEventListener('click', () => {
@@ -311,5 +339,6 @@ delButton.addEventListener('click', () => {
   data.splice(index, 1)
   render(data)
   localSave(data)
+  localSave(backupData)
   homeFun()
 })
